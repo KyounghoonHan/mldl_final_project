@@ -5,6 +5,6 @@ app_name = 'predict_price'
 
 urlpatterns = [
     path('', views.first_view, name='first_view'),  
-    path('caculator/', views.calculator, name='caculator'),
+    path('inprocess/', views.inprocess, name='inprocess'),
     path('prediction/', views.prediction, name='prediction'),
 ]

@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>아파트값 예측</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="//fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'predict_price/style.css' %}"/>
+
+  <!-- <META http-equiv="refresh" content="3; {% url 'predict_price:prediction' %}"> -->
+
+  <!-- 방안 1. url에 정보를 담아서 view에서 get 방식으로 data 저장 후 전달하기 -->
+  <!-- 방안 2. post 할 수 있도록 hidden으로 담아서 버튼 눌러서 전달하기 (이러면 자동으로 계산되는 것 처럼 보여주는 취지에 어긋남)-->
+  <!-- 방안 3. Javascript를 사용해서 전달? -->
+
+</head>
+<body>
+    <button class="btn btn-primary">
+    <span class="spinner-border spinner-border-sm"></span>
+    Calculating... {{ test }}
+    </button>
+
+  <script language = "javascript">
+    var result = '{{ test }}';
+    // var result = "test1";
+    setTimeout(function(){
+      location.href="{% url 'predict_price:prediction' %}?" + result;
+    }, 3000);
+  </script>
+
+</body>
+
+</html>

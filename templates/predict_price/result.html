@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predict House Price</title>
-</head>
-<body>
-    <h1>결과입니다</h1>
-    <br>
-    <h1>{{ value_gu }}</h1>
-    <h1>{{ value_dong }}</h1>
-    <h1>{{ value_size }}</h1>
-    <p><a href="{% url 'predict_price:first_view' %}">Return to home</a></p>
-</body>
-</html>
+{% extends 'predict_price/base.html' %}
+{% block content %}
+
+<!-- <h1>{{ value_gu }}</h1>
+<h1>{{ value_dong }}</h1>
+<h1>{{ value_apt }}</h1>
+<h1>{{ value_size }}</h1>
+<br> -->
+
+<script language = "javascript">
+    temp = location.href.split("?");
+    data=temp[1]
+    document.write(data);   //페이지에 전달받은 값 띄워서 확인하기 
+    console.log("TAGTAG : " + data);    //콘솔에 전달받은 값 띄워서 확인하기
+</script>
+
+
+<p><a href="{% url 'predict_price:first_view' %}">Return to home</a></p>
+
+{% endblock %}

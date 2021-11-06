@@ -1,6 +1,6 @@
 body {
     /* background-image: url("images/bg_1.jpg"); */
-    background-image: url('images/bg_2.jpg');
+    /* background-image: url('images/bg_2.jpg'); */
     background-size: cover;
     font-family: 'Do Hyeon', "Noto Sans KR", "Titillium Web", "Helvetica", sans-serif;
 }
@@ -59,9 +59,9 @@ line-height: 1em;
     position: fixed;
     bottom: 0;
     width: 100%;
-    margin-top: 350px;
+    margin-top: 150px;
     text-align: center;
-    height: 40px;
+    height: 20px;
     background-color: #f5f5f5;
-    font-size: 2em;
+    font-size: 20px;
 }

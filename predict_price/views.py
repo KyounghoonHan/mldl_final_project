@@ -7,9 +7,20 @@ from django.db.models import Count
 # Create your views here.
 def first_view(request):
 
-    size_list = Apartment.objects.order_by('size').values('size').distinct() 
-    apt_list = Apartment.objects.order_by('gu').values('gu', 'dong').distinct()
-    
+    name_list = Apartment.objects.order_by('dong').values('dong', 'name').distinct()
+    dong_name_group = {}
+    for dong_name_each in name_list:
+        if dong_name_each['dong'] not in dong_name_group.keys():
+            dong_name_group[dong_name_each['dong']] = [dong_name_each['name']]
+        else:
+            dong_name_group[dong_name_each['dong']].append(dong_name_each['name'])
+
+    # print("*******************")
+    # print(name_list)
+    # print("*******************")
+    # print(dong_name_group)
+
+    apt_list = Apartment.objects.order_by('gu').values('gu', 'dong').distinct()   
     gu_dong_group = {} # {'강남구': ['대치동', '압구정동', '도곡동',...], '강동구': ['상일동', '암사동', '길동', ...] ... }
     for gu_dong_each in apt_list :
         if gu_dong_each['gu'] not in gu_dong_group.keys() :
@@ -17,25 +28,29 @@ def first_view(request):
         else:
             gu_dong_group[gu_dong_each['gu']].append(gu_dong_each['dong'])
 
-    print("*******************")
-    print(apt_list)
-    print("*******************")
-    print(gu_dong_group)
+    # print("*******************")
+    # print(apt_list)
+    # print("*******************")
+    # print(gu_dong_group)
 
-    context = {'apt_list':apt_list, 'gu_dong_group':gu_dong_group, 'size_list':size_list}
+    context = {'gu_dong_group':gu_dong_group, 'dong_name_group':dong_name_group, }
     return render(request, 'predict_price/first_view.html', context)
 
-
 def prediction(request):
+
+    return render(request, 'predict_price/result.html', {})
+
+def inprocess(request):
     value_gu = request.POST['select_input_gu']
     value_dong = request.POST['select_input_dong']
+    value_apt = request.POST['select_input_apt']
     value_size = request.POST['select_input_size']
     
-    # Deep Learning 
+    # Load deep learning code
     # predict_result = predict_iris_one(data_1d_array)
-    context = {'value_gu': value_gu, 'value_dong': value_dong, 'value_size': value_size}
-    return render(request, 'predict_price/result.html', context)
+    test = "test"
 
+    context = {'test':test} # 'predict_result':predict_result 전달
 
-def calculator(reqeust):
-    pass
+    # return render(request, 'predict_price/result.html', context)
+    return render(request, 'predict_price/inprocess.html', context)

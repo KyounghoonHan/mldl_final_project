@@ -1,17 +1,5 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Predict housing price</title>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'predict_price/style.css' %}"/>
-</head>
-<body>
+{% extends 'predict_price/base.html' %}
+{% block content %}
 
 <div class="seoul_map">
     <img src="static/predict_price/images/0.jpg" alt="서울시지도" usemap="#city-map" id="seoul-city-map">
@@ -46,7 +34,7 @@
 <br>
 
 
-<form action="{% url 'predict_price:prediction' %}" method="POST">
+<form action="{% url 'predict_price:inprocess' %}" method="POST">
     {% csrf_token %}
 
     <div class="input_data">
@@ -57,7 +45,13 @@
         <span>
             법정동명
             <input type="text" id="change_input_dong" name="select_input_dong"/>
-            <select id="change_test_dong" onchange="select_dong_change(this.value);">
+            <select id="change_test_dong" onchange="select_dong_change(this.value, {{dong_name_group}});">
+            </select>
+        </span>
+        <span>
+            아파트명
+            <input type="text" id="change_input_apt" name="select_input_apt"/>
+            <select id="change_test_apt" onchange="select_apt_change(this.value);">
             </select>
         </span>
         <span>
@@ -82,12 +76,26 @@
 <br>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    var select_dong_change = function(value){
+    var select_dong_change = function(value, dong_name_group){
         console.log("값변경테스트:" + value);
         $("#change_input_dong").val(value);
+
+        var data_name = dong_name_group[value]
+        var select_apt = document.querySelector('#change_test_apt'); // ${"#change_test_dong"}
+        
+        select_apt.options.length = 0;
+        
+        for (var i = 0; i < data_name.length; i++) {
+            var option_name = document.createElement('option');
+            option_name.innerText = data_name[i];
+            select_apt.append(option_name);
+        }        
+    }
+
+    var select_apt_change = function(value){
+        console.log("값변경테스트:" + value);
+        $("#change_input_apt").val(value);
     }
 
     var select_size_change = function(value){
@@ -109,7 +117,7 @@
         $("#change_input_gu").val(gu);
     //    alert(gu);
 
-        var data_dong = gu_dong_group[gu]
+        var data_dong = gu_dong_group[gu];
         var select_dong = document.querySelector('#change_test_dong'); // ${"#change_test_dong"}
         
         select_dong.options.length = 0;
@@ -123,5 +131,4 @@
 
 </script>
 
-</body>
-</html>
+{% endblock %}
