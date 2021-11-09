@@ -15,8 +15,8 @@ a {
     color: black;
     text-decoration: none;
     font-weight: 900;
-    font-size:3em;
-    line-height: 2em;
+    /* font-size:3em; */
+    /* line-height: 2em; */
 }
 
 h2, li {
@@ -25,7 +25,8 @@ h2, li {
 
 label {
     font-weight: 600;
-    font-size:1.5em;
+    /* font-size:1.5em; */
+    color:white;
 }
 
 input[type=radio] {
@@ -35,7 +36,7 @@ input[type=radio] {
 input[type=submit]{
     padding: 0.5% !important;
     font-size: 100px !important;  
-    line-height: 1em;
+    /* line-height: 1em; */
     width: 100%;
 }
 
@@ -54,6 +55,14 @@ input[type=submit]{
 
 .navbar-nav > li > a {
     font-size: 2em;
+}
+
+.top {
+    background-image: url("images/logo_side_resize.png");
+    z-index: 999;
+    height: 170px;
+    width: 390px;
+    position: fixed;    
 }
 
 .footer {
