@@ -1,6 +1,10 @@
 {% extends 'predict_price/base.html' %}
 {% block content %}
 
+<div>
+    <h1> A program to predict housing prices in Seoul </h1>
+    <br>
+</div>
 <!-- <h1>{{ value_gu }}</h1>
 <h1>{{ value_dong }}</h1>
 <h1>{{ value_apt }}</h1>
@@ -9,8 +13,9 @@
 
 <script language = "javascript">
     temp = location.href.split("?");
-    data=temp[1]
-    document.write(data);   //페이지에 전달받은 값 띄워서 확인하기 
+    data=temp[1];
+
+    document.write("<h1>"+data+"원"+"</h1>");   //페이지에 전달받은 값 띄워서 확인하기 
     console.log("TAGTAG : " + data);    //콘솔에 전달받은 값 띄워서 확인하기
 </script>
 

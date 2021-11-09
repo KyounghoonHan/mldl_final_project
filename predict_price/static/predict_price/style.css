@@ -1,12 +1,14 @@
 body {
-    /* background-image: url("images/bg_1.jpg"); */
+    background-image: url("images/bg_1.jpg");
     /* background-image: url('images/bg_2.jpg'); */
+    /* background-image: url('images/bg_3.jpg'); */
     background-size: cover;
     font-family: 'Do Hyeon', "Noto Sans KR", "Titillium Web", "Helvetica", sans-serif;
 }
 
 .input_data {
     display : inline-block;
+    text-align: center;
 }
 
 a {
@@ -30,11 +32,11 @@ input[type=radio] {
     margin-top: 2%;
     margin-bottom: 2%;
 }
-input[type=submit]{ 
-  padding: 0.5% !important;
-font-size: 100px !important;  
-line-height: 1em;
-  width: 100%;
+input[type=submit]{
+    padding: 0.5% !important;
+    font-size: 100px !important;  
+    line-height: 1em;
+    width: 100%;
 }
 
 .navbar-default {

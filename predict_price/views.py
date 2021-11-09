@@ -48,7 +48,7 @@ def inprocess(request):
     
     # Load deep learning code
     # predict_result = predict_iris_one(data_1d_array)
-    test = "test"
+    test = "800000"
 
     context = {'test':test} # 'predict_result':predict_result 전달
 
