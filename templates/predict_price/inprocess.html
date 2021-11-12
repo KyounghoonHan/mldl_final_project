@@ -15,7 +15,7 @@
   <link href="//fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static 'predict_price/style.css' %}"/>
 
-  <!-- <META http-equiv="refresh" content="3; {% url 'predict_price:prediction' %}"> -->
+  <!-- <META http-equiv="refresh" content="3; { % url 'predict_price:prediction' % }"> -->
 
   <!-- 방안 1. url에 정보를 담아서 view에서 get 방식으로 data 저장 후 전달하기 -->
   <!-- 방안 2. post 할 수 있도록 hidden으로 담아서 버튼 눌러서 전달하기 (이러면 자동으로 계산되는 것 처럼 보여주는 취지에 어긋남)-->
@@ -23,10 +23,14 @@
 
 </head>
 <body>
-<div class="text-center">
+<div class="text-center" style="padding-top:10%; color:white;">
+    <br>
+    <br>
     <h1>Calculating...</h1>
-
+    <br>
+    <br>
 </div>
+
 <div class="text-center">
     <div class="spinner-border text-success" role="status" style="width: 240px; height: 240px;">
         <span class="visually-hidden"></span>
@@ -34,11 +38,15 @@
 </div>
 
   <script language = "javascript">
-    var result = '{{ test }}';
-    // var result = "test1";
+
+    var result = '{{ predict_result }}';
+    var apt = '{{ value_apt }}'; // added 
+    var apt_average = '{{ apt_avg }}'
+    var dong_average = '{{ dong_avg }}'
+
     setTimeout(function(){
-      location.href="{% url 'predict_price:prediction' %}?" + result;
-    }, 3000);
+      location.href="/prediction/" + apt + "/" + result + "/" + apt_average + "/" + dong_average; // added
+    }, 5000);
   </script>
 
 </body>

@@ -1,25 +1,71 @@
 {% extends 'predict_price/base.html' %}
 {% block content %}
 
-<div>
-    <h1> A program to predict housing prices in Seoul </h1>
-    <br>
-</div>
-<!-- <h1>{{ value_gu }}</h1>
-<h1>{{ value_dong }}</h1>
-<h1>{{ value_apt }}</h1>
-<h1>{{ value_size }}</h1>
-<br> -->
 
-<script language = "javascript">
+{% comment %} <script language = "javascript">
     temp = location.href.split("?");
     data=temp[1];
 
-    document.write("<h1>"+data+"원"+"</h1>");   //페이지에 전달받은 값 띄워서 확인하기 
+    document.write("<div class='last_page_middle'><h1>"+"예측가격은 "+data+"억 원입니다."+"</h1></div>");   //페이지에 전달받은 값 띄워서 확인하기 
     console.log("TAGTAG : " + data);    //콘솔에 전달받은 값 띄워서 확인하기
+</script> {% endcomment %}
+
+
+{% comment %} <div class="last_page_top">
+    <h1> A program to predict housing prices in Seoul </h1>
+</div> {% endcomment %}
+
+
+<div id='building_thumbnail'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="white" class="bi bi-building" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
+    <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
+    </svg>
+</div>
+
+<div class='last_page_middle'>
+    <h1>선택하신 {{ apt_name }} 의</h1>
+    <h1 class='under'>예측가격은 {{ price }} 억 원입니다.</h1>
+    <br>
+    <h2>선택된 아파트 단지의 평균가격은 {{ apt_average }} 억 원입니다. </h2>
+    <h2>선택된 동의 아파트 평균가격은  {{ dong_average }} 억 원입니다. </h2>
+</div>
+
+
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '연도별 서울 아파트 가격(단위: 억 원)'
+    },
+    xAxis: {
+        categories: ['2017년', '2018년', '2019년', '2020년', '2021년']
+    },
+    series: [{
+        name: '초소형(40㎡ 이하)',
+        data: [3.5, 3.6, 4.1, 4.4, 5.0]
+    }, {
+        name: '소형(40㎡초과 60㎡이하)',
+        data: [4.6, 4.9, 6.0, 6.9, 8.4]
+    }, {
+        name: '중소형(60㎡초과 85㎡이하)',
+        data: [6.3, 6.6, 8.3, 9.1, 11.2]
+    }, {
+        name: '중대형(85㎡초과 135㎡이하)',
+        data: [10.2, 10.7, 13.4, 14.3, 18.3]
+    }
+    ]
+});
 </script>
 
 
-<p><a href="{% url 'predict_price:first_view' %}">Return to home</a></p>
+<div class="last_page_bottom">
+    <p><a href="{% url 'predict_price:first_view' %}">Return to home</a></p>
+</div>
+
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'predict_price/base.html' %}
 {% block content %}
 
-<div class="seoul_map">
+<div class="seoul_map" id='seoul_map'>
     <img src="static/predict_price/images/0.png" alt="서울시지도" usemap="#city-map" id="seoul-city-map">
     <map name='city-map' id="city-map-link">
         <area shape="poly" coords="350,9,368,8,375,21,387,15,402,23,394,46,394,64,408,101,404,107,397,94,390,121,363,94,350,93,353,54,342,37,339,21,349,9" href="#" alt="도봉구" class="link_map" id="map_10" onclick="selectImg({{gu_dong_group}}, '도봉구')" onmouseover="changeImg('static/predict_price/images/10.png')", onmouseout="changeImg('static/predict_price/images/0.png')">
@@ -31,64 +31,81 @@
         <area shape="poly" coords="491,278,508,237,531,232,545,229,566,213,574,217,579,234,582,248,585,266,579,272,558,275,548,281,548,288,538,305,527,317,497,299,501,288,493,278" href="#" alt="강동구" class="link_map" id="map_2" onclick="selectImg({{gu_dong_group}}, '강동구')" onmouseover="changeImg('static/predict_price/images/2.png')", onmouseout="changeImg('static/predict_price/images/0.png')">
     </map>
 </div>
+{% comment %} <br>
 <br>
+<br>
+<br>
+<br> {% endcomment %}
 
-
-<form action="{% url 'predict_price:inprocess' %}" method="POST">
+<form action="{% url 'predict_price:inprocess' %}" method="POST" id="main_form">
     {% csrf_token %}
 
-    <div>
+    <br>
+    <div class='distinguish'>
+    </div>    
+    <div class="first_line">
         <input type="hidden" id="change_input_gu" name="select_input_gu"/>
 
         <label>법정동명</label>
-        <input type="text" id="change_input_dong" name="select_input_dong"/>
+        <input type="text" id="change_input_dong" name="select_input_dong"  required/>
         <select id="change_test_dong" onchange="select_dong_change(this.value, {{dong_name_group}});">
         </select>
 
         <label>아파트명</label>
-        <input type="text" id="change_input_apt" name="select_input_apt"/>
+        <input type="text" id="change_input_apt" name="select_input_apt" required/>
         <select id="change_test_apt" onchange="select_apt_change(this.value, {{name_size_group}}, {{name_floor_group}}, {{name_cstr_year_group}},
         {{name_built_year_group}}, {{name_brand_score_group}}
         );">
         </select>
     </div>
-    <br>
 
-    <div>
+    <div class='distinguish'>
+    </div>
+
+    <div class="second_line">
         <label>건물면적<label>
-        <input type="text" id="change_input_size" name="select_input_size"/>
+        <input type="text" id="change_input_size" name="select_input_size" required/>
         <select id="change_test_size" onchange="select_size_change(this.value);">
         </select>
 
         <label>층수<label>
-        <input type="text" id="change_input_floor" name="select_input_floor"/>
+        <input type="text" id="change_input_floor" name="select_input_floor" required/>
         <select id="change_test_floor" onchange="select_floor_change(this.value);">
         </select>
 
+        <br/>
+        <br/>
+
         <label>건축년도<label>
-        <input type="text" id="change_input_cstr_year" name="select_input_cstr_year"/>
+        <input type="text" id="change_input_cstr_year" name="select_input_cstr_year" required/>
         <select id="change_test_cstr_year" onchange="select_cstr_year_change(this.value);">
         </select>
-    </div>
-    
-    <div>
+
         <label>사용년도<label>
-        <input type="text" id="change_input_built_year" name="select_input_built_year"/>
+        <input type="text" id="change_input_built_year" name="select_input_built_year" required/>
         <select id="change_test_built_year" onchange="select_built_year_change(this.value);">
         </select>
 
+        <br/>
+        <br/>
+
         <label>브랜드지수<label>
-        <input type="text" id="change_input_brand_score" name="select_input_brand_score"/>
+        <input type="text" id="change_input_brand_score" name="select_input_brand_score" required/>
         <select id="change_test_brand_score" onchange="select_brand_score_change(this.value);">
         </select>
     </div>
-    <br>
+    
+    <div class='distinguish'>
+    </div>
+
+    <div class="third_line">
+        <button type="submit" id="main_form_submit">Predict!</button>   
+    </div>
 
     <div>
         <input type="hidden" id="change_input_sell" name="select_input_sell"/>
         <input type="hidden" id="change_input_trade_index" name="select_input_trade_index"/>        
     </div>
-    <button type="submit">Predict!</button>   
 </form>
 <br>
 
@@ -101,9 +118,11 @@
         var data_dong = gu_dong_group[gu];
         var select_dong = document.querySelector('#change_test_dong'); // ${"#change_test_dong"}
         
-        select_dong.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_dong.append(disabled);
         
-        for (var i = 0; i <= data_dong.length; i++) {
+        for (var i = 0; i < data_dong.length; i++) {
             var option_dong = document.createElement('option');
             option_dong.innerText = data_dong[i]; // == option_dong.value = data_dong[i];
             select_dong.append(option_dong);
@@ -117,9 +136,17 @@
         var data_name = dong_name_group[value]
         var select_apt = document.querySelector('#change_test_apt'); // ${"#change_test_dong"}
         
-        select_apt.options.length = 0;
-        
-        for (var i = 0; i <= data_name.length; i++) {
+        // select_apt.options.length = 0;
+        // <option value="" selected disabled>Choose your value</option>
+
+        // option_name.innerText = "Choose your value";
+        // select_apt.append(option_name);
+
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_apt.append(disabled);
+
+        for (var i = 0; i < data_name.length; i++) {
             var option_name = document.createElement('option');
             option_name.innerText = data_name[i];
             select_apt.append(option_name);
@@ -133,9 +160,11 @@
         var data_size = name_size_group[value]
         var select_size = document.querySelector('#change_test_size'); // ${"#change_test_dong"}
         
-        select_size.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_size.append(disabled);
         
-        for (var i = 0; i <= data_size.length; i++) {
+        for (var i = 0; i < data_size.length; i++) {
             var option_size = document.createElement('option');
             option_size.innerText = data_size[i];
             select_size.append(option_size);
@@ -144,9 +173,11 @@
         var data_floor = name_floor_group[value]
         var select_floor = document.querySelector('#change_test_floor'); // ${"#change_test_dong"}
         
-        select_floor.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_floor.append(disabled);
         
-        for (var i = 0; i <= data_floor.length; i++) {
+        for (var i = 0; i < data_floor.length; i++) {
             var option_floor = document.createElement('option');
             option_floor.innerText = data_floor[i];
             select_floor.append(option_floor);
@@ -155,9 +186,11 @@
         var data_cstr_year = name_cstr_year_group[value]
         var select_cstr_year = document.querySelector('#change_test_cstr_year'); // ${"#change_test_dong"}
         
-        select_cstr_year.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_cstr_year.append(disabled);
         
-        for (var i = 0; i <= data_cstr_year.length; i++) {
+        for (var i = 0; i < data_cstr_year.length; i++) {
             var option_cstr_year = document.createElement('option');
             option_cstr_year.innerText = data_cstr_year[i];
             select_cstr_year.append(option_cstr_year);
@@ -166,9 +199,11 @@
         var data_built_year = name_built_year_group[value]
         var select_built_year = document.querySelector('#change_test_built_year'); // ${"#change_test_dong"}
         
-        select_built_year.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_built_year.append(disabled);
         
-        for (var i = 0; i <= data_built_year.length; i++) {
+        for (var i = 0; i < data_built_year.length; i++) {
             var option_built_year = document.createElement('option');
             option_built_year.innerText = data_built_year[i];
             select_built_year.append(option_built_year);
@@ -177,9 +212,11 @@
         var data_brand_score = name_brand_score_group[value]
         var select_brand_score = document.querySelector('#change_test_brand_score'); // ${"#change_test_dong"}
         
-        select_brand_score.options.length = 0;
+        var disabled = document.createElement('option');
+        disabled.innerText = "Please select one!";
+        select_brand_score.append(disabled);
         
-        for (var i = 0; i <= data_brand_score.length; i++) {
+        for (var i = 0; i < data_brand_score.length; i++) {
             var option_brand_score = document.createElement('option');
             option_brand_score.innerText = data_brand_score[i];
             select_brand_score.append(option_brand_score);
